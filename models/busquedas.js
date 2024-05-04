@@ -7,12 +7,24 @@ class Busquedas {
 		// TODO: leer DB si existe
 	}
 
+	get paramsMapbox() {
+		return {
+			access_token:
+				'pk.eyJ1IjoieGg0cnoiLCJhIjoiY2x2cnF1MzM5MHJrbzJpbzAwdWk5dXhzbyJ9.NUo45bj7oNW9n3SNC9XxKQ',
+			limit: 5,
+			language: 'es'
+		};
+	}
+
 	async ciudad(lugar = '') {
 		try {
 			// peticion http
-			const resp = await axios.get(
-				'https://api.mapbox.com/search/geocode/v6/forward?access_token=pk.eyJ1IjoieGg0cnoiLCJhIjoiY2x2cnF1MzM5MHJrbzJpbzAwdWk5dXhzbyJ9.NUo45bj7oNW9n3SNC9XxKQ&limit=5&language=es&q=bogota'
-			);
+			const intance = axios.create({
+				baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+				params: this.paramsMapbox
+			});
+
+			const resp = await intance.get();
 
 			console.log(resp.data);
 
